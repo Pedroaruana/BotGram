@@ -1,0 +1,66 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 0 2rem;
+  height: 64px;
+  background: rgba(5, 5, 8, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #e2e8f0;
+  letter-spacing: 0.05em;
+
+  .bracket { color: #7c3aed; }
+  .accent { color: #00ff9f; }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &:hover, &.active { color: #e2e8f0; }
+  }
+}
+
+.btn-cta {
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  border: 1px solid #00ff9f;
+  color: #00ff9f !important;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    background: rgba(0, 255, 159, 0.08);
+    box-shadow: 0 0 16px rgba(0, 255, 159, 0.25);
+  }
+}
