@@ -6,46 +6,38 @@
     <div class="hero-glow"></div>
 
     <div class="hero-content">
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        Telegram Bot Builder
-      </div>
+      <p class="hero-pre">Construtor de bots para o Telegram</p>
 
       <h1 class="hero-title">
-        Crie seu bot de<br />
-        <span class="highlight">vendas no Telegram</span><br />
-        em minutos
+        Seu bot de vendas<br />
+        no ar em <span class="highlight">menos de 5 minutos</span>
       </h1>
 
       <p class="hero-desc">
-        Escolha um template, personalize as mensagens e gere o código pronto.<br />
-        Sem precisar saber programar.
+        Você configura tudo pelo site — produtos, preços, mensagens —
+        e a gente gera o código do bot pronto pra rodar.
+        Não precisa saber programar.
       </p>
 
       <div class="hero-actions">
-        <a routerLink="/templates" class="btn-primary">
-          Começar agora
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-        <a href="#como-funciona" class="btn-ghost">Ver como funciona</a>
+        <a routerLink="/templates" class="btn-primary">Criar meu bot</a>
+        <a href="#planos" class="btn-ghost">Ver planos →</a>
       </div>
 
       <div class="hero-stats">
         <div class="stat">
-          <span class="stat-value">6+</span>
-          <span class="stat-label">Templates prontos</span>
+          <span class="stat-value">3</span>
+          <span class="stat-label">templates grátis</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <span class="stat-value">100%</span>
-          <span class="stat-label">Gratuito</span>
+          <span class="stat-value">1 bot</span>
+          <span class="stat-label">no plano gratuito</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
           <span class="stat-value">5min</span>
-          <span class="stat-label">Para configurar</span>
+          <span class="stat-label">pra configurar</span>
         </div>
       </div>
     </div>
@@ -63,16 +55,15 @@
           <div class="msg msg-bot">
             Olá! 👋 Bem-vindo ao catálogo.<br />O que você procura hoje?
           </div>
-          <div class="msg msg-bot">
+          <div class="msg msg-bot menu">
             <div class="menu-item">🎬 Filmes e Séries</div>
-            <div class="menu-item">📚 E-books</div>
             <div class="menu-item">📺 IPTV</div>
+            <div class="menu-item">📖 Mangás</div>
           </div>
           <div class="msg msg-user">Filmes e Séries</div>
           <div class="msg msg-bot">
-            Ótima escolha! 🎬<br />
             Plano mensal: <strong>R$ 29,90</strong><br />
-            Acesso a +5000 títulos em 4K
+            Acesso a +5000 títulos em 4K 🎬
           </div>
           <div class="typing">
             <span></span><span></span><span></span>
@@ -82,58 +73,99 @@
     </div>
   </section>
 
+  <!-- Templates grátis -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-label">// grátis pra sempre</div>
+      <h2 class="section-title">Comece com esses 3 templates</h2>
+      <p class="section-sub">Sem precisar assinar nada. Cria o bot, gera o código e coloca no ar.</p>
+
+      <div class="free-templates">
+        @for (t of freeTemplates; track t.name) {
+          <div class="free-card">
+            <span class="free-icon">{{ t.icon }}</span>
+            <div>
+              <h3>{{ t.name }}</h3>
+              <p>{{ t.desc }}</p>
+            </div>
+            <span class="free-tag">Grátis</span>
+          </div>
+        }
+      </div>
+
+      <div class="more-templates">
+        <span>+ {{ paidTemplates.length }} templates nos planos pagos:</span>
+        <div class="more-list">
+          @for (t of paidTemplates; track t.name) {
+            <span class="more-item">{{ t.icon }} {{ t.name }}</span>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Como funciona -->
-  <section class="how-it-works" id="como-funciona">
+  <section class="section" id="como-funciona">
     <div class="section-inner">
       <div class="section-label">// como funciona</div>
-      <h2 class="section-title">Três passos para ter seu bot</h2>
+      <h2 class="section-title">Três passos e o bot tá no ar</h2>
 
       <div class="steps">
         <div class="step">
           <div class="step-number">01</div>
           <div class="step-icon">🎨</div>
           <h3>Escolha um template</h3>
-          <p>Selecione o nicho do seu negócio: filmes, cursos, IPTV, e-books ou produtos físicos.</p>
+          <p>Seleciona o nicho do seu negócio e já começa com a estrutura pronta.</p>
         </div>
         <div class="step-arrow">→</div>
         <div class="step">
           <div class="step-number">02</div>
           <div class="step-icon">✏️</div>
-          <h3>Personalize</h3>
-          <p>Adicione seus produtos, preços, descrições e formas de pagamento no formulário visual.</p>
+          <h3>Preenche as informações</h3>
+          <p>Nome do bot, produtos, preços, mensagens e forma de pagamento.</p>
         </div>
         <div class="step-arrow">→</div>
         <div class="step">
           <div class="step-number">03</div>
           <div class="step-icon">🚀</div>
-          <h3>Gere o código</h3>
-          <p>Copie o código pronto do seu bot e coloque no servidor. Pronto para vender.</p>
+          <h3>Copia o código e sobe</h3>
+          <p>Baixa o arquivo gerado, coloca no servidor e o bot começa a vender.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Templates preview -->
-  <section class="templates-preview">
+  <!-- Planos -->
+  <section class="section" id="planos">
     <div class="section-inner">
-      <div class="section-label">// templates disponíveis</div>
-      <h2 class="section-title">Escolha seu nicho</h2>
+      <div class="section-label">// planos</div>
+      <h2 class="section-title">Começa grátis, cresce quando precisar</h2>
+      <p class="section-sub">Sem cartão de crédito pra começar.</p>
 
-      <div class="templates-grid">
-        @for (template of templates; track template.id) {
-          <div class="template-card">
-            <div class="card-icon">{{ template.icon }}</div>
-            <h3>{{ template.name }}</h3>
-            <p>{{ template.desc }}</p>
-            <span class="card-tag">{{ template.tag }}</span>
+      <div class="plans-grid">
+        @for (plan of plans; track plan.name) {
+          <div class="plan-card" [class.plan-highlight]="plan.highlight">
+            @if (plan.highlight) {
+              <div class="plan-badge">Mais popular</div>
+            }
+            <div class="plan-name">{{ plan.name }}</div>
+            <div class="plan-price">
+              {{ plan.price }}
+              <span class="plan-period">/ {{ plan.period }}</span>
+            </div>
+            @if (plan.note) {
+              <div class="plan-note">{{ plan.note }}</div>
+            }
+            <ul class="plan-features">
+              @for (f of plan.features; track f) {
+                <li><span class="check">✓</span> {{ f }}</li>
+              }
+            </ul>
+            <a routerLink="/templates" class="plan-cta" [class.plan-cta-highlight]="plan.highlight">
+              {{ plan.cta }}
+            </a>
           </div>
         }
-      </div>
-
-      <div class="section-cta">
-        <a routerLink="/templates" class="btn-primary">
-          Ver todos os templates
-        </a>
       </div>
     </div>
   </section>
