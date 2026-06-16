@@ -1,0 +1,30 @@
+<div class="card" (click)="select()">
+  <div class="card-header">
+    <span class="card-icon">{{ template().icon }}</span>
+    @if (template().free) {
+      <span class="badge-free">Grátis</span>
+    } @else {
+      <span class="badge-pro">Pro</span>
+    }
+  </div>
+
+  <h3 class="card-name">{{ template().name }}</h3>
+  <p class="card-desc">{{ template().desc }}</p>
+
+  <div class="card-preview">
+    <div class="preview-label">Preview do bot</div>
+    @for (msg of template().preview; track msg) {
+      <div class="preview-msg">{{ msg }}</div>
+    }
+  </div>
+
+  <div class="card-footer">
+    <span class="card-category">{{ template().category }}</span>
+    <button class="card-btn">
+      Usar template
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+</div>
