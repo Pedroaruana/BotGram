@@ -1,0 +1,141 @@
+<div class="page">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Telegram Bot Builder
+      </div>
+
+      <h1 class="hero-title">
+        Crie seu bot de<br />
+        <span class="highlight">vendas no Telegram</span><br />
+        em minutos
+      </h1>
+
+      <p class="hero-desc">
+        Escolha um template, personalize as mensagens e gere o código pronto.<br />
+        Sem precisar saber programar.
+      </p>
+
+      <div class="hero-actions">
+        <a routerLink="/templates" class="btn-primary">
+          Começar agora
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#como-funciona" class="btn-ghost">Ver como funciona</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">6+</span>
+          <span class="stat-label">Templates prontos</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Gratuito</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-value">5min</span>
+          <span class="stat-label">Para configurar</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="phone-mockup">
+        <div class="phone-header">
+          <div class="phone-avatar"></div>
+          <div class="phone-info">
+            <span class="phone-name">Meu Bot de Vendas</span>
+            <span class="phone-status">online</span>
+          </div>
+        </div>
+        <div class="phone-messages">
+          <div class="msg msg-bot">
+            Olá! 👋 Bem-vindo ao catálogo.<br />O que você procura hoje?
+          </div>
+          <div class="msg msg-bot">
+            <div class="menu-item">🎬 Filmes e Séries</div>
+            <div class="menu-item">📚 E-books</div>
+            <div class="menu-item">📺 IPTV</div>
+          </div>
+          <div class="msg msg-user">Filmes e Séries</div>
+          <div class="msg msg-bot">
+            Ótima escolha! 🎬<br />
+            Plano mensal: <strong>R$ 29,90</strong><br />
+            Acesso a +5000 títulos em 4K
+          </div>
+          <div class="typing">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Como funciona -->
+  <section class="how-it-works" id="como-funciona">
+    <div class="section-inner">
+      <div class="section-label">// como funciona</div>
+      <h2 class="section-title">Três passos para ter seu bot</h2>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">01</div>
+          <div class="step-icon">🎨</div>
+          <h3>Escolha um template</h3>
+          <p>Selecione o nicho do seu negócio: filmes, cursos, IPTV, e-books ou produtos físicos.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">02</div>
+          <div class="step-icon">✏️</div>
+          <h3>Personalize</h3>
+          <p>Adicione seus produtos, preços, descrições e formas de pagamento no formulário visual.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">03</div>
+          <div class="step-icon">🚀</div>
+          <h3>Gere o código</h3>
+          <p>Copie o código pronto do seu bot e coloque no servidor. Pronto para vender.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Templates preview -->
+  <section class="templates-preview">
+    <div class="section-inner">
+      <div class="section-label">// templates disponíveis</div>
+      <h2 class="section-title">Escolha seu nicho</h2>
+
+      <div class="templates-grid">
+        @for (template of templates; track template.id) {
+          <div class="template-card">
+            <div class="card-icon">{{ template.icon }}</div>
+            <h3>{{ template.name }}</h3>
+            <p>{{ template.desc }}</p>
+            <span class="card-tag">{{ template.tag }}</span>
+          </div>
+        }
+      </div>
+
+      <div class="section-cta">
+        <a routerLink="/templates" class="btn-primary">
+          Ver todos os templates
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
