@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TemplateCard, BotTemplate } from '../../shared/template-card/template-card';
+
+type Filter = 'todos' | 'gratis' | 'pro';
 
 @Component({
   selector: 'app-templates',
@@ -9,7 +11,9 @@ import { TemplateCard, BotTemplate } from '../../shared/template-card/template-c
   styleUrl: './templates.scss',
 })
 export class Templates {
-  templates: BotTemplate[] = [
+  activeFilter = signal<Filter>('todos');
+
+  allTemplates: BotTemplate[] = [
     {
       id: 1,
       icon: '🎬',
@@ -93,9 +97,24 @@ export class Templates {
     },
   ];
 
-  selected: BotTemplate | null = null;
+  templates = computed(() => {
+    const f = this.activeFilter();
+    if (f === 'gratis') return this.allTemplates.filter(t => t.free);
+    if (f === 'pro') return this.allTemplates.filter(t => !t.free);
+    return this.allTemplates;
+  });
+
+  filters: { label: string; value: Filter }[] = [
+    { label: 'Todos', value: 'todos' },
+    { label: 'Grátis', value: 'gratis' },
+    { label: 'Pro', value: 'pro' },
+  ];
+
+  setFilter(f: Filter) {
+    this.activeFilter.set(f);
+  }
 
   onTemplateSelect(template: BotTemplate) {
-    this.selected = template;
+    console.log('template selecionado:', template.name);
   }
 }

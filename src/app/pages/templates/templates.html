@@ -8,12 +8,30 @@
         <h1>Escolha seu template</h1>
         <p>3 templates grátis pra começar. Nos planos pagos você desbloqueia todos.</p>
       </div>
+
+      <div class="filters">
+        @for (f of filters; track f.value) {
+          <button
+            class="filter-btn"
+            [class.active]="activeFilter() === f.value"
+            (click)="setFilter(f.value)"
+          >
+            {{ f.label }}
+            @if (f.value === 'gratis') {
+              <span class="filter-count">3</span>
+            }
+            @if (f.value === 'pro') {
+              <span class="filter-count">6</span>
+            }
+          </button>
+        }
+      </div>
     </div>
   </div>
 
   <div class="grid-wrapper">
     <div class="templates-grid">
-      @for (template of templates; track template.id) {
+      @for (template of templates(); track template.id) {
         <app-template-card
           [template]="template"
           (onSelect)="onTemplateSelect($event)"

@@ -48,6 +48,46 @@
   }
 }
 
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1rem;
+  background: transparent;
+  border: 1px solid #1e1e3a;
+  border-radius: 6px;
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+
+  &:hover {
+    border-color: rgba(124, 58, 237, 0.3);
+    color: #94a3b8;
+  }
+
+  &.active {
+    border-color: #7c3aed;
+    color: #e2e8f0;
+    background: rgba(124, 58, 237, 0.08);
+  }
+}
+
+.filter-count {
+  padding: 0.1rem 0.4rem;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  font-size: 0.68rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
 .grid-wrapper {
   max-width: 1200px;
   margin: 0 auto;
