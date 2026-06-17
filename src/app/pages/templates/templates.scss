@@ -1,0 +1,61 @@
+.templates-page {
+  min-height: 100vh;
+  padding-top: 64px;
+}
+
+.page-header {
+  padding: 3rem 2rem 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: #475569;
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+  transition: color 0.2s;
+  font-family: 'JetBrains Mono', monospace;
+
+  &:hover { color: #94a3b8; }
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #7c3aed;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.header-text {
+  h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+}
+
+.grid-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+}
+
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}

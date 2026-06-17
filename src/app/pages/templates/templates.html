@@ -1,1 +1,25 @@
-<p>templates works!</p>
+<div class="templates-page">
+
+  <div class="page-header">
+    <div class="header-inner">
+      <a routerLink="/" class="back-link">← voltar</a>
+      <div class="header-text">
+        <div class="section-label">// templates</div>
+        <h1>Escolha seu template</h1>
+        <p>3 templates grátis pra começar. Nos planos pagos você desbloqueia todos.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-wrapper">
+    <div class="templates-grid">
+      @for (template of templates; track template.id) {
+        <app-template-card
+          [template]="template"
+          (onSelect)="onTemplateSelect($event)"
+        />
+      }
+    </div>
+  </div>
+
+</div>
