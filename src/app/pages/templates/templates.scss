@@ -99,3 +99,21 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.25rem;
 }
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 2rem 1.25rem 1.5rem;
+  }
+
+  .grid-wrapper {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+
+  .templates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+  }
+}

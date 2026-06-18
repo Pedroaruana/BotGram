@@ -125,3 +125,22 @@
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s;
 }
+
+@media (max-width: 768px) {
+  .card {
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .card-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
