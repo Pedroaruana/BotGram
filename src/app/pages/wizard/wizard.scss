@@ -241,6 +241,85 @@
   }
 }
 
+// ── Products ──────────────────────────────────────────────────────────────────
+
+.products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.product-card {
+  padding: 1.25rem;
+  background: #080812;
+  border: 1px solid #1e1e3a;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  transition: border-color 0.2s;
+
+  &:focus-within { border-color: rgba(124, 58, 237, 0.3); }
+}
+
+.product-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #7c3aed;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.btn-remove {
+  background: transparent;
+  border: none;
+  color: #475569;
+  font-size: 0.72rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+
+  &:hover { color: #f87171; background: rgba(248, 113, 113, 0.08); }
+}
+
+.fields-row {
+  flex-direction: row !important;
+  gap: 0.75rem !important;
+}
+
+.field-grow { flex: 1; }
+.field-price { width: 130px; flex-shrink: 0; }
+
+.btn-add-product {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  background: transparent;
+  border: 1px dashed rgba(124, 58, 237, 0.3);
+  border-radius: 7px;
+  color: #7c3aed;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+  justify-content: center;
+
+  &:hover {
+    border-color: rgba(124, 58, 237, 0.6);
+    background: rgba(124, 58, 237, 0.05);
+  }
+}
+
 // ── Placeholder ───────────────────────────────────────────────────────────────
 
 .placeholder-panel {
