@@ -4,7 +4,13 @@
     <a routerLink="/templates" class="back-link">← templates</a>
     <div class="wizard-title">
       <span class="section-label">// configurar bot</span>
-      <h1>Personalize seu bot</h1>
+      <h1>
+        @if (template) {
+          {{ template.icon }} {{ template.name }}
+        } @else {
+          Personalize seu bot
+        }
+      </h1>
     </div>
   </div>
 

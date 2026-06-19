@@ -1,4 +1,5 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { Router } from '@angular/router';
 
 export interface BotTemplate {
   id: number;
@@ -18,9 +19,10 @@ export interface BotTemplate {
 })
 export class TemplateCard {
   template = input.required<BotTemplate>();
-  onSelect = output<BotTemplate>();
+
+  constructor(private router: Router) {}
 
   select() {
-    this.onSelect.emit(this.template());
+    this.router.navigate(['/wizard', this.template().id]);
   }
 }

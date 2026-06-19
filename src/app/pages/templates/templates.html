@@ -32,10 +32,7 @@
   <div class="grid-wrapper">
     <div class="templates-grid">
       @for (template of templates(); track template.id) {
-        <app-template-card
-          [template]="template"
-          (onSelect)="onTemplateSelect($event)"
-        />
+        <app-template-card [template]="template" />
       }
     </div>
   </div>

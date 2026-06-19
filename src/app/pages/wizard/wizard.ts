@@ -1,6 +1,7 @@
-import { Component, signal, computed } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, signal, computed, OnInit } from '@angular/core';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { BotTemplate } from '../../shared/template-card/template-card';
 
 interface Step {
   number: number;
@@ -14,14 +15,27 @@ interface Product {
   desc: string;
 }
 
+const ALL_TEMPLATES: BotTemplate[] = [
+  { id: 1, icon: '🎬', name: 'Filmes & Séries', desc: '', category: 'Entretenimento', free: true, preview: [] },
+  { id: 2, icon: '📺', name: 'IPTV', desc: '', category: 'Entretenimento', free: true, preview: [] },
+  { id: 3, icon: '📖', name: 'Mangás', desc: '', category: 'Entretenimento', free: true, preview: [] },
+  { id: 4, icon: '📚', name: 'E-books & Cursos', desc: '', category: 'Digital', free: false, preview: [] },
+  { id: 5, icon: '🎮', name: 'Jogos & Contas', desc: '', category: 'Games', free: false, preview: [] },
+  { id: 6, icon: '👗', name: 'Produtos Físicos', desc: '', category: 'Loja', free: false, preview: [] },
+  { id: 7, icon: '🎵', name: 'Música & Beats', desc: '', category: 'Arte', free: false, preview: [] },
+  { id: 8, icon: '💻', name: 'Software & Licenças', desc: '', category: 'Digital', free: false, preview: [] },
+  { id: 9, icon: '🎓', name: 'Mentorias', desc: '', category: 'Serviços', free: false, preview: [] },
+];
+
 @Component({
   selector: 'app-wizard',
   imports: [RouterLink, FormsModule],
   templateUrl: './wizard.html',
   styleUrl: './wizard.scss',
 })
-export class Wizard {
+export class Wizard implements OnInit {
   currentStep = signal(1);
+  template: BotTemplate | null = null;
 
   steps: Step[] = [
     { number: 1, label: 'Bot', desc: 'Informações básicas' },
@@ -35,15 +49,25 @@ export class Wizard {
   isFirst = computed(() => this.currentStep() === 1);
   isLast = computed(() => this.currentStep() === this.totalSteps);
 
-  // Step 1
   botName = '';
   botToken = '';
   botDesc = '';
 
-  // Step 2
-  products = signal<Product[]>([
-    { name: '', price: '', desc: '' }
-  ]);
+  products = signal<Product[]>([{ name: '', price: '', desc: '' }]);
+
+  welcomeMsg = '';
+  menuTitle = '';
+
+  pixKey = '';
+  paymentNote = '';
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.template = ALL_TEMPLATES.find(t => t.id === id) ?? null;
+    if (this.template) this.botName = this.template.name;
+  }
 
   addProduct() {
     this.products.update(list => [...list, { name: '', price: '', desc: '' }]);
@@ -59,14 +83,6 @@ export class Wizard {
       list.map((p, i) => i === index ? { ...p, [field]: value } : p)
     );
   }
-
-  // Step 3
-  welcomeMsg = '';
-  menuTitle = '';
-
-  // Step 4
-  pixKey = '';
-  paymentNote = '';
 
   next() {
     if (!this.isLast()) this.currentStep.update(s => s + 1);
