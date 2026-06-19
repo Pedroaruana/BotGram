@@ -1,0 +1,124 @@
+<div class="wizard-page">
+
+  <div class="wizard-header">
+    <a routerLink="/templates" class="back-link">← templates</a>
+    <div class="wizard-title">
+      <span class="section-label">// configurar bot</span>
+      <h1>Personalize seu bot</h1>
+    </div>
+  </div>
+
+  <div class="wizard-body">
+
+    <!-- Steps progress -->
+    <aside class="steps-sidebar">
+      @for (step of steps; track step.number) {
+        <div
+          class="step-item"
+          [class.active]="currentStep() === step.number"
+          [class.done]="currentStep() > step.number"
+          (click)="goTo(step.number)"
+        >
+          <div class="step-circle">
+            @if (currentStep() > step.number) {
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+            } @else {
+              {{ step.number }}
+            }
+          </div>
+          <div class="step-info">
+            <span class="step-label">{{ step.label }}</span>
+            <span class="step-desc">{{ step.desc }}</span>
+          </div>
+        </div>
+
+        @if (step.number < totalSteps) {
+          <div class="step-connector" [class.done]="currentStep() > step.number"></div>
+        }
+      }
+    </aside>
+
+    <!-- Step content -->
+    <div class="step-content">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progress()"></div>
+      </div>
+      <span class="progress-label">Passo {{ currentStep() }} de {{ totalSteps }}</span>
+
+      @switch (currentStep()) {
+        @case (1) {
+          <div class="step-panel">
+            <h2>Informações do bot</h2>
+            <p class="step-subtitle">Essas são as configurações básicas. Você vai precisar do token do BotFather.</p>
+            <div class="fields">
+              <div class="field">
+                <label>Nome do bot</label>
+                <input type="text" placeholder="ex: Minha Loja Oficial" />
+              </div>
+              <div class="field">
+                <label>Token do Telegram <span class="label-hint">(do BotFather)</span></label>
+                <input type="text" placeholder="1234567890:ABCdefGhIJKlmNoPQRsTUVwxyZ" class="font-mono" />
+                <span class="field-help">Não sabe como pegar? <a href="https://t.me/BotFather" target="_blank">Acesse o BotFather</a></span>
+              </div>
+              <div class="field">
+                <label>Descrição curta do bot</label>
+                <textarea placeholder="ex: Aqui você encontra os melhores planos de filmes e séries!" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+        }
+        @case (2) {
+          <div class="step-panel">
+            <h2>Seus produtos</h2>
+            <p class="step-subtitle">Adicione o que você vende. O bot vai exibir esses itens como menu.</p>
+            <div class="placeholder-panel">
+              <span>🛒</span>
+              <p>Formulário de produtos — próximo commit</p>
+            </div>
+          </div>
+        }
+        @case (3) {
+          <div class="step-panel">
+            <h2>Mensagens do bot</h2>
+            <p class="step-subtitle">Personalize o que o bot vai dizer em cada etapa.</p>
+            <div class="placeholder-panel">
+              <span>💬</span>
+              <p>Formulário de mensagens — próximo commit</p>
+            </div>
+          </div>
+        }
+        @case (4) {
+          <div class="step-panel">
+            <h2>Forma de pagamento</h2>
+            <p class="step-subtitle">Como seus clientes vão pagar.</p>
+            <div class="placeholder-panel">
+              <span>💳</span>
+              <p>Formulário de pagamento — próximo commit</p>
+            </div>
+          </div>
+        }
+      }
+
+      <!-- Navigation -->
+      <div class="step-nav">
+        @if (!isFirst()) {
+          <button class="btn-back" (click)="back()">← Voltar</button>
+        } @else {
+          <div></div>
+        }
+        @if (!isLast()) {
+          <button class="btn-next" (click)="next()">
+            Continuar →
+          </button>
+        } @else {
+          <button class="btn-generate">
+            ⚡ Gerar código do bot
+          </button>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>

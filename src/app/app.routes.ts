@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/templates/templates').then(m => m.Templates),
   },
   {
+    path: 'wizard/:id',
+    loadComponent: () => import('./pages/wizard/wizard').then(m => m.Wizard),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
