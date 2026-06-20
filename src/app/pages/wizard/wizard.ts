@@ -3,17 +3,8 @@ import { RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BotTemplate } from '../../shared/template-card/template-card';
 
-interface Step {
-  number: number;
-  label: string;
-  desc: string;
-}
-
-interface Product {
-  name: string;
-  price: string;
-  desc: string;
-}
+interface Step { number: number; label: string; desc: string; }
+interface Product { name: string; price: string; desc: string; }
 
 const ALL_TEMPLATES: BotTemplate[] = [
   { id: 1, icon: '🎬', name: 'Filmes & Séries', desc: '', category: 'Entretenimento', free: true, preview: [] },
@@ -49,24 +40,39 @@ export class Wizard implements OnInit {
   isFirst = computed(() => this.currentStep() === 1);
   isLast = computed(() => this.currentStep() === this.totalSteps);
 
-  botName = '';
-  botToken = '';
-  botDesc = '';
+  // Step 1 — signals para reatividade no preview
+  botName = signal('');
+  botToken = signal('');
+  botDesc = signal('');
 
+  // Step 2
   products = signal<Product[]>([{ name: '', price: '', desc: '' }]);
 
-  welcomeMsg = '';
-  menuTitle = '';
+  // Step 3
+  welcomeMsg = signal('');
+  menuTitle = signal('');
 
-  pixKey = '';
-  paymentNote = '';
+  // Step 4
+  pixKey = signal('');
+  paymentNote = signal('');
+
+  // Preview computed
+  previewBotName = computed(() => this.botName() || 'Meu Bot de Vendas');
+  previewWelcome = computed(() => this.welcomeMsg() || 'Olá! 👋 Bem-vindo. O que você procura?');
+  previewMenu = computed(() => this.menuTitle() || 'Escolha uma opção:');
+  previewProducts = computed(() =>
+    this.products().filter(p => p.name).length > 0
+      ? this.products().filter(p => p.name)
+      : [{ name: 'Produto exemplo', price: 'R$ 00,00', desc: '' }]
+  );
+  previewFirstProduct = computed(() => this.previewProducts()[0]);
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.template = ALL_TEMPLATES.find(t => t.id === id) ?? null;
-    if (this.template) this.botName = this.template.name;
+    if (this.template) this.botName.set(this.template.name);
   }
 
   addProduct() {
@@ -84,15 +90,7 @@ export class Wizard implements OnInit {
     );
   }
 
-  next() {
-    if (!this.isLast()) this.currentStep.update(s => s + 1);
-  }
-
-  back() {
-    if (!this.isFirst()) this.currentStep.update(s => s - 1);
-  }
-
-  goTo(step: number) {
-    if (step < this.currentStep()) this.currentStep.set(step);
-  }
+  next() { if (!this.isLast()) this.currentStep.update(s => s + 1); }
+  back() { if (!this.isFirst()) this.currentStep.update(s => s - 1); }
+  goTo(step: number) { if (step < this.currentStep()) this.currentStep.set(step); }
 }

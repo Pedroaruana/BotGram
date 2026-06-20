@@ -5,33 +5,27 @@
     <div class="wizard-title">
       <span class="section-label">// configurar bot</span>
       <h1>
-        @if (template) {
-          {{ template.icon }} {{ template.name }}
-        } @else {
-          Personalize seu bot
-        }
+        @if (template) { {{ template.icon }} {{ template.name }} }
+        @else { Personalize seu bot }
       </h1>
     </div>
   </div>
 
   <div class="wizard-body">
 
+    <!-- Sidebar -->
     <aside class="steps-sidebar">
       @for (step of steps; track step.number) {
-        <div
-          class="step-item"
+        <div class="step-item"
           [class.active]="currentStep() === step.number"
           [class.done]="currentStep() > step.number"
-          (click)="goTo(step.number)"
-        >
+          (click)="goTo(step.number)">
           <div class="step-circle">
             @if (currentStep() > step.number) {
               <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path d="M20 6L9 17l-5-5"/>
               </svg>
-            } @else {
-              {{ step.number }}
-            }
+            } @else { {{ step.number }} }
           </div>
           <div class="step-info">
             <span class="step-label">{{ step.label }}</span>
@@ -44,6 +38,7 @@
       }
     </aside>
 
+    <!-- Form -->
     <div class="step-content">
       <div class="progress-bar">
         <div class="progress-fill" [style.width.%]="progress()"></div>
@@ -51,7 +46,6 @@
       <span class="progress-label">Passo {{ currentStep() }} de {{ totalSteps }}</span>
 
       @switch (currentStep()) {
-
         @case (1) {
           <div class="step-panel">
             <h2>Informações do bot</h2>
@@ -59,26 +53,24 @@
             <div class="fields">
               <div class="field">
                 <label>Nome do bot</label>
-                <input type="text" [(ngModel)]="botName" placeholder="ex: Minha Loja Oficial" />
+                <input type="text" [ngModel]="botName()" (ngModelChange)="botName.set($event)" placeholder="ex: Minha Loja Oficial" />
               </div>
               <div class="field">
                 <label>Token do Telegram <span class="label-hint">(do BotFather)</span></label>
-                <input type="text" [(ngModel)]="botToken" placeholder="1234567890:ABCdefGhIJKlmNoPQRsTUVwxyZ" class="font-mono" />
+                <input type="text" [ngModel]="botToken()" (ngModelChange)="botToken.set($event)" placeholder="1234567890:ABCdefGhIJKlmNoPQRsTUVwxyZ" class="font-mono" />
                 <span class="field-help">Não sabe como pegar? <a href="https://t.me/BotFather" target="_blank">Acesse o BotFather</a></span>
               </div>
               <div class="field">
                 <label>Descrição curta do bot</label>
-                <textarea [(ngModel)]="botDesc" placeholder="ex: Aqui você encontra os melhores planos de filmes e séries!" rows="3"></textarea>
+                <textarea [ngModel]="botDesc()" (ngModelChange)="botDesc.set($event)" placeholder="ex: Aqui você encontra os melhores planos de filmes e séries!" rows="3"></textarea>
               </div>
             </div>
           </div>
         }
-
         @case (2) {
           <div class="step-panel">
             <h2>Seus produtos</h2>
-            <p class="step-subtitle">Adicione o que você vende. O bot vai exibir cada item como uma opção do menu.</p>
-
+            <p class="step-subtitle">Adicione o que você vende. O bot vai exibir cada item como opção do menu.</p>
             <div class="products-list">
               @for (product of products(); track $index) {
                 <div class="product-card">
@@ -90,102 +82,110 @@
                   </div>
                   <div class="fields fields-row">
                     <div class="field field-grow">
-                      <label>Nome do produto</label>
-                      <input
-                        type="text"
-                        [value]="product.name"
-                        (input)="updateProduct($index, 'name', $any($event.target).value)"
-                        placeholder="ex: Plano Mensal"
-                      />
+                      <label>Nome</label>
+                      <input type="text" [value]="product.name" (input)="updateProduct($index, 'name', $any($event.target).value)" placeholder="ex: Plano Mensal" />
                     </div>
                     <div class="field field-price">
                       <label>Preço</label>
-                      <input
-                        type="text"
-                        [value]="product.price"
-                        (input)="updateProduct($index, 'price', $any($event.target).value)"
-                        placeholder="R$ 29,90"
-                      />
+                      <input type="text" [value]="product.price" (input)="updateProduct($index, 'price', $any($event.target).value)" placeholder="R$ 29,90" />
                     </div>
                   </div>
                   <div class="field">
                     <label>Descrição <span class="label-hint">(opcional)</span></label>
-                    <input
-                      type="text"
-                      [value]="product.desc"
-                      (input)="updateProduct($index, 'desc', $any($event.target).value)"
-                      placeholder="ex: Acesso a +5000 títulos em 4K"
-                    />
+                    <input type="text" [value]="product.desc" (input)="updateProduct($index, 'desc', $any($event.target).value)" placeholder="ex: Acesso a +5000 títulos em 4K" />
                   </div>
                 </div>
               }
             </div>
-
-            <button class="btn-add-product" (click)="addProduct()">
-              + adicionar produto
-            </button>
+            <button class="btn-add-product" (click)="addProduct()">+ adicionar produto</button>
           </div>
         }
-
         @case (3) {
           <div class="step-panel">
             <h2>Mensagens do bot</h2>
-            <p class="step-subtitle">Personalize o que o bot vai dizer em cada etapa da conversa.</p>
+            <p class="step-subtitle">Personalize o que o bot vai dizer em cada etapa.</p>
             <div class="fields">
               <div class="field">
                 <label>Mensagem de boas-vindas</label>
-                <textarea
-                  [(ngModel)]="welcomeMsg"
-                  placeholder="ex: Olá! 👋 Bem-vindo à nossa loja. O que você procura hoje?"
-                  rows="3"
-                ></textarea>
+                <textarea [ngModel]="welcomeMsg()" (ngModelChange)="welcomeMsg.set($event)" placeholder="ex: Olá! 👋 Bem-vindo à nossa loja!" rows="3"></textarea>
               </div>
               <div class="field">
-                <label>Título do menu de produtos</label>
-                <input
-                  type="text"
-                  [(ngModel)]="menuTitle"
-                  placeholder="ex: Escolha um plano:"
-                />
+                <label>Título do menu</label>
+                <input type="text" [ngModel]="menuTitle()" (ngModelChange)="menuTitle.set($event)" placeholder="ex: Escolha um plano:" />
               </div>
             </div>
           </div>
         }
-
         @case (4) {
           <div class="step-panel">
             <h2>Pagamento</h2>
-            <p class="step-subtitle">Como seus clientes vão pagar. O bot vai enviar essas informações após o pedido.</p>
+            <p class="step-subtitle">Como seus clientes vão pagar após o pedido.</p>
             <div class="fields">
               <div class="field">
                 <label>Chave PIX</label>
-                <input type="text" [(ngModel)]="pixKey" placeholder="CPF, e-mail, telefone ou chave aleatória" />
+                <input type="text" [ngModel]="pixKey()" (ngModelChange)="pixKey.set($event)" placeholder="CPF, e-mail, telefone ou chave aleatória" />
               </div>
               <div class="field">
-                <label>Instruções de pagamento <span class="label-hint">(opcional)</span></label>
-                <textarea
-                  [(ngModel)]="paymentNote"
-                  placeholder="ex: Após o pagamento, envie o comprovante aqui no chat."
-                  rows="3"
-                ></textarea>
+                <label>Instruções <span class="label-hint">(opcional)</span></label>
+                <textarea [ngModel]="paymentNote()" (ngModelChange)="paymentNote.set($event)" placeholder="ex: Envie o comprovante aqui no chat." rows="3"></textarea>
               </div>
             </div>
           </div>
         }
-
       }
 
       <div class="step-nav">
         @if (!isFirst()) {
           <button class="btn-back" (click)="back()">← Voltar</button>
-        } @else {
-          <div></div>
-        }
+        } @else { <div></div> }
         @if (!isLast()) {
           <button class="btn-next" (click)="next()">Continuar →</button>
         } @else {
           <button class="btn-generate">⚡ Gerar código do bot</button>
         }
+      </div>
+    </div>
+
+    <!-- Preview Telegram -->
+    <div class="preview-panel">
+      <div class="preview-label-top">
+        <span class="dot"></span> preview em tempo real
+      </div>
+      <div class="tg-window">
+        <div class="tg-header">
+          <div class="tg-avatar">{{ template?.icon ?? '🤖' }}</div>
+          <div class="tg-info">
+            <span class="tg-name">{{ previewBotName() }}</span>
+            <span class="tg-status">online</span>
+          </div>
+        </div>
+        <div class="tg-messages">
+          <div class="tg-msg tg-bot">{{ previewWelcome() }}</div>
+          <div class="tg-msg tg-bot tg-menu">
+            <div class="tg-menu-title">{{ previewMenu() }}</div>
+            @for (p of previewProducts(); track $index) {
+              <div class="tg-menu-item">
+                {{ $index + 1 }}. {{ p.name }} @if (p.price) { — <strong>{{ p.price }}</strong> }
+              </div>
+            }
+          </div>
+          <div class="tg-msg tg-user">{{ previewFirstProduct().name || 'Produto exemplo' }}</div>
+          <div class="tg-msg tg-bot">
+            Ótima escolha! 🎉<br />
+            @if (previewFirstProduct().price) {
+              Valor: <strong>{{ previewFirstProduct().price }}</strong><br />
+            }
+            @if (pixKey()) {
+              PIX: <strong>{{ pixKey() }}</strong><br />
+            }
+            @if (paymentNote()) {
+              {{ paymentNote() }}
+            } @else {
+              Envie o comprovante após o pagamento.
+            }
+          </div>
+          <div class="tg-typing"><span></span><span></span><span></span></div>
+        </div>
       </div>
     </div>
 
