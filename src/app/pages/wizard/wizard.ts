@@ -27,6 +27,8 @@ const ALL_TEMPLATES: BotTemplate[] = [
 export class Wizard implements OnInit {
   currentStep = signal(1);
   template: BotTemplate | null = null;
+  showCode = signal(false);
+  copied = signal(false);
 
   steps: Step[] = [
     { number: 1, label: 'Bot', desc: 'Informações básicas' },
@@ -40,23 +42,15 @@ export class Wizard implements OnInit {
   isFirst = computed(() => this.currentStep() === 1);
   isLast = computed(() => this.currentStep() === this.totalSteps);
 
-  // Step 1 — signals para reatividade no preview
   botName = signal('');
   botToken = signal('');
   botDesc = signal('');
-
-  // Step 2
   products = signal<Product[]>([{ name: '', price: '', desc: '' }]);
-
-  // Step 3
   welcomeMsg = signal('');
   menuTitle = signal('');
-
-  // Step 4
   pixKey = signal('');
   paymentNote = signal('');
 
-  // Preview computed
   previewBotName = computed(() => this.botName() || 'Meu Bot de Vendas');
   previewWelcome = computed(() => this.welcomeMsg() || 'Olá! 👋 Bem-vindo. O que você procura?');
   previewMenu = computed(() => this.menuTitle() || 'Escolha uma opção:');
@@ -66,6 +60,54 @@ export class Wizard implements OnInit {
       : [{ name: 'Produto exemplo', price: 'R$ 00,00', desc: '' }]
   );
   previewFirstProduct = computed(() => this.previewProducts()[0]);
+
+  generatedCode = computed(() => {
+    const name = this.botName() || 'Meu Bot';
+    const token = this.botToken() || 'SEU_TOKEN_AQUI';
+    const welcome = this.welcomeMsg() || 'Olá! 👋 Bem-vindo. O que você procura?';
+    const menu = this.menuTitle() || 'Escolha uma opção:';
+    const pix = this.pixKey() || 'SUA_CHAVE_PIX';
+    const note = this.paymentNote() || 'Envie o comprovante após o pagamento.';
+    const prods = this.products().filter(p => p.name).length > 0
+      ? this.products().filter(p => p.name)
+      : [{ name: 'Produto 1', price: 'R$ 0,00', desc: '' }];
+
+    const menuItems = prods.map((p, i) =>
+      `  bot.sendMessage(chatId, '${i + 1}. ${p.name}${p.price ? ' — ' + p.price : ''}${p.desc ? '\\n' + p.desc : ''}');`
+    ).join('\n');
+
+    const productCases = prods.map((p, i) =>
+      `    case '${i + 1}':\n    case '${p.name}':\n      bot.sendMessage(chatId, '✅ ${p.name}${p.price ? '\\nValor: ' + p.price : ''}\\n\\n💳 PIX: ${pix}\\n${note}');\n      break;`
+    ).join('\n');
+
+    return `// ${name} — gerado pelo BotGram
+const TelegramBot = require('node-telegram-bot-api');
+
+const TOKEN = '${token}';
+const bot = new TelegramBot(TOKEN, { polling: true });
+
+bot.onText(/\\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, '${welcome}');
+  bot.sendMessage(chatId, '${menu}');
+${menuItems}
+});
+
+bot.on('message', (msg) => {
+  const chatId = msg.chat.id;
+  const text = msg.text?.trim();
+
+  if (text === '/start') return;
+
+  switch (text) {
+${productCases}
+    default:
+      bot.sendMessage(chatId, 'Digite /start para ver o menu. 😊');
+  }
+});
+
+console.log('✅ ${name} rodando...');`;
+  });
 
   constructor(private route: ActivatedRoute) {}
 
@@ -88,6 +130,17 @@ export class Wizard implements OnInit {
     this.products.update(list =>
       list.map((p, i) => i === index ? { ...p, [field]: value } : p)
     );
+  }
+
+  generate() {
+    this.showCode.set(true);
+    setTimeout(() => document.querySelector('.code-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
+  }
+
+  async copyCode() {
+    await navigator.clipboard.writeText(this.generatedCode());
+    this.copied.set(true);
+    setTimeout(() => this.copied.set(false), 2000);
   }
 
   next() { if (!this.isLast()) this.currentStep.update(s => s + 1); }

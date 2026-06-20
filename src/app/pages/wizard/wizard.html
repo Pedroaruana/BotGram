@@ -141,7 +141,7 @@
         @if (!isLast()) {
           <button class="btn-next" (click)="next()">Continuar →</button>
         } @else {
-          <button class="btn-generate">⚡ Gerar código do bot</button>
+          <button class="btn-generate" (click)="generate()">⚡ Gerar código do bot</button>
         }
       </div>
     </div>
@@ -190,4 +190,27 @@
     </div>
 
   </div>
+
+  <!-- Código gerado -->
+  @if (showCode()) {
+    <div class="code-section">
+      <div class="code-inner">
+        <div class="code-header">
+          <div class="code-header-left">
+            <span class="code-filename">bot.js</span>
+            <span class="code-hint">Rode com: <code>node bot.js</code></span>
+          </div>
+          <button class="btn-copy" (click)="copyCode()">
+            @if (copied()) { ✅ copiado! } @else { 📋 copiar código }
+          </button>
+        </div>
+        <pre class="code-block"><code>{{ generatedCode() }}</code></pre>
+        <div class="code-footer">
+          <span>📦 Instale a dependência antes de rodar:</span>
+          <code class="install-cmd">npm install node-telegram-bot-api</code>
+        </div>
+      </div>
+    </div>
+  }
+
 </div>
