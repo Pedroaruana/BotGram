@@ -429,3 +429,31 @@ h1 {
 
   &:hover { opacity: 0.88; }
 }
+
+@media (max-width: 640px) {
+  .pricing-page { padding: 80px 1.25rem 4rem; }
+
+  .pricing-header { margin-bottom: 2rem; }
+
+  h1 { font-size: 1.75rem; }
+
+  .period-toggle { width: 100%; justify-content: center; }
+
+  .plans-row {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .compare-table { overflow-x: auto; }
+
+  .compare-header,
+  .compare-row {
+    grid-template-columns: 1fr 80px 100px;
+    min-width: 340px;
+  }
+
+  .bottom-cta {
+    padding: 2rem 1.25rem;
+    h2 { font-size: 1.2rem; }
+  }
+}

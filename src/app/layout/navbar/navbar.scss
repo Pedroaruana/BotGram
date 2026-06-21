@@ -64,3 +64,13 @@
     box-shadow: 0 0 16px rgba(0, 255, 159, 0.25);
   }
 }
+
+@media (max-width: 600px) {
+  .navbar { padding: 0 1.25rem; }
+
+  .nav-links {
+    gap: 1rem;
+
+    a:not(.btn-cta) { display: none; }
+  }
+}

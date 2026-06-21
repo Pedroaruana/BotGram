@@ -748,6 +748,7 @@
   .wizard-body {
     flex-direction: column;
     padding: 1.5rem 1.25rem 3rem;
+    gap: 1.25rem;
   }
 
   .steps-sidebar {
@@ -757,9 +758,7 @@
     gap: 0;
     padding-bottom: 0.5rem;
 
-    .step-connector {
-      display: none;
-    }
+    .step-connector { display: none; }
 
     .step-item {
       flex-direction: column;
@@ -770,5 +769,24 @@
 
     .step-info { align-items: center; }
     .step-desc { display: none; }
+  }
+
+  .preview-panel { display: none; }
+
+  .fields-row {
+    flex-direction: column !important;
+
+    .field-price { width: 100%; }
+  }
+
+  .code-success {
+    flex-wrap: wrap;
+    .btn-edit { margin-left: 0; width: 100%; }
+  }
+
+  .code-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
 }
