@@ -143,6 +143,16 @@ console.log('✅ ${name} rodando...');`;
     setTimeout(() => this.copied.set(false), 2000);
   }
 
+  downloadCode() {
+    const blob = new Blob([this.generatedCode()], { type: 'text/javascript' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'bot.js';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   next() { if (!this.isLast()) this.currentStep.update(s => s + 1); }
   back() { if (!this.isFirst()) this.currentStep.update(s => s - 1); }
   goTo(step: number) { if (step < this.currentStep()) this.currentStep.set(step); }
