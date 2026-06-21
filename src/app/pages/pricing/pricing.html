@@ -1,0 +1,138 @@
+<div class="pricing-page">
+
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <!-- Header -->
+  <div class="pricing-header">
+    <a routerLink="/" class="back-link">← voltar</a>
+    <div class="section-label">// planos</div>
+    <h1>Preço simples, <span class="highlight">sem surpresa</span></h1>
+    <p class="pricing-sub">Começa de graça, assina só quando precisar de mais.</p>
+
+    <!-- Period toggle -->
+    <div class="period-toggle">
+      @for (p of periods; track p.value) {
+        <button
+          class="period-btn"
+          [class.active]="activePeriod() === p.value"
+          (click)="activePeriod.set(p.value)">
+          {{ p.label }}
+          @if (p.value === 'anual') {
+            <span class="period-badge">-37%</span>
+          }
+          @if (p.value === 'semestral') {
+            <span class="period-badge">-21%</span>
+          }
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Plans -->
+  <div class="plans-row">
+    @for (plan of currentPrice(); track plan.name) {
+      <div class="plan-card" [class.plan-highlight]="plan.highlight">
+        @if (plan.tag) {
+          <div class="plan-tag">{{ plan.tag }}</div>
+        }
+
+        <div class="plan-name">{{ plan.name }}</div>
+        <div class="plan-price">
+          {{ plan.displayPrice }}
+          @if (activePeriod() !== 'mensal' && plan.highlight) {
+            <span class="plan-period">/ {{ activePeriod() }}</span>
+          } @else if (!plan.highlight) {
+            <span class="plan-period">/ para sempre</span>
+          } @else {
+            <span class="plan-period">/ mês</span>
+          }
+        </div>
+
+        @if (plan.displayPerMonth) {
+          <div class="plan-per-month">{{ plan.displayPerMonth }}</div>
+        }
+        @if (plan.displaySavings) {
+          <div class="plan-savings">{{ plan.displaySavings }}</div>
+        }
+
+        <div class="plan-divider"></div>
+
+        <ul class="plan-features">
+          @for (f of plan.features; track f) {
+            <li class="feature-item">
+              <span class="feature-check">✓</span> {{ f }}
+            </li>
+          }
+          @for (f of plan.notIncluded; track f) {
+            <li class="feature-item feature-no">
+              <span class="feature-x">✕</span> {{ f }}
+            </li>
+          }
+        </ul>
+
+        <a routerLink="/templates" class="plan-cta" [class.plan-cta-highlight]="plan.highlight">
+          {{ plan.cta }}
+        </a>
+      </div>
+    }
+  </div>
+
+  <!-- Compare table -->
+  <div class="compare-section">
+    <div class="section-label">// comparação</div>
+    <h2 class="compare-title">O que está incluso em cada plano</h2>
+
+    <div class="compare-table">
+      <div class="compare-header">
+        <div class="compare-feature-col">Recurso</div>
+        <div class="compare-plan-col">Grátis</div>
+        <div class="compare-plan-col highlight-col">Pro</div>
+      </div>
+
+      @for (row of compareRows; track row.feature) {
+        <div class="compare-row">
+          <div class="compare-feature-col">{{ row.feature }}</div>
+          <div class="compare-plan-col">
+            @if (row.free === true) { <span class="c-check">✓</span> }
+            @else if (row.free === false) { <span class="c-x">✕</span> }
+            @else { <span class="c-text">{{ row.free }}</span> }
+          </div>
+          <div class="compare-plan-col highlight-col">
+            @if (row.pro === true) { <span class="c-check">✓</span> }
+            @else if (row.pro === false) { <span class="c-x">✕</span> }
+            @else { <span class="c-text">{{ row.pro }}</span> }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="section-label">// dúvidas</div>
+    <h2 class="faq-title">Perguntas frequentes</h2>
+
+    <div class="faq-list">
+      @for (item of faq; track $index) {
+        <div class="faq-item" [class.open]="openFaq() === $index" (click)="toggleFaq($index)">
+          <div class="faq-q">
+            <span>{{ item.q }}</span>
+            <span class="faq-icon">{{ openFaq() === $index ? '−' : '+' }}</span>
+          </div>
+          @if (openFaq() === $index) {
+            <div class="faq-a">{{ item.a }}</div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="bottom-cta">
+    <h2>Pronto pra criar seu bot?</h2>
+    <p>Começa agora no plano grátis. Sem cartão de crédito.</p>
+    <a routerLink="/templates" class="btn-primary">Criar meu bot →</a>
+  </div>
+
+</div>
