@@ -36,6 +36,12 @@ Quando comecei a estudar desenvolvimento, fez sentido construir exatamente isso.
 - **Node.js** — código gerado usa `node-telegram-bot-api`
 - **Vercel** — deploy e hospedagem
 
+## Screenshots
+
+![Home](docs/home.png)
+![Configurar](docs/configurar.png)
+![Bot](docs/bot.png)
+
 ## Arquitetura
 
 ```
@@ -57,12 +63,23 @@ Cada página é um standalone component carregado via lazy loading. O wizard usa
 
 ## Rodando localmente
 
+**Pré-requisitos:** Node.js 18+ e Angular CLI instalados.
+
 ```bash
+# 1. Clone o repositório
+git clone https://github.com/Pedroaruana/BotGram.git
+cd BotGram
+
+# 2. Instale as dependências
 npm install
+
+# 3. Inicie o servidor de desenvolvimento
 ng serve
 ```
 
 Acesse `http://localhost:4200`
+
+> Para testar o bot gerado você vai precisar de um token do Telegram. Crie um pelo [@BotFather](https://t.me/BotFather) — é gratuito e leva menos de 1 minuto.
 
 ## Desafios
 
@@ -73,23 +90,6 @@ Acesse `http://localhost:4200`
 **Tailwind v4 no Angular** — A versão 4 do Tailwind mudou a forma de configurar. Não usa mais `tailwind.config.js` da mesma forma — precisei configurar via `postcss.config.mjs` com `@tailwindcss/postcss`, o que levou um tempo pra entender.
 
 **Geração de código dinâmico** — O `bot.js` gerado é montado como uma string dentro de um `computed()`, o que significa que ele se reconstrói automaticamente sempre que qualquer dado do formulário muda. Exigiu cuidado com escaping de caracteres especiais dentro do template literal.
-
-## Estrutura do projeto
-
-```
-src/
-├── app/
-│   ├── layout/
-│   │   └── navbar/
-│   ├── pages/
-│   │   ├── home/
-│   │   ├── templates/
-│   │   ├── wizard/
-│   │   └── pricing/
-│   └── shared/
-│       └── template-card/
-└── styles.scss
-```
 
 ---
 
