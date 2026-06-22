@@ -1,5 +1,7 @@
 # BotGram
 
+![Vercel](https://img.shields.io/badge/Vercel-deployed-000?logo=vercel&logoColor=white) ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-bot-339933?logo=node.js&logoColor=white) ![License](https://img.shields.io/badge/license-MIT-green)
+
 **Demo ao vivo → [botgram-henna.vercel.app](https://botgram-henna.vercel.app)**
 
 Construtor visual de bots de venda para o Telegram. Você configura tudo pelo site — produtos, preços e mensagens — e recebe o código do bot pronto pra rodar. Sem precisar saber programar.
