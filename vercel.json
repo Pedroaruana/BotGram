@@ -1,0 +1,6 @@
+{
+  "outputDirectory": "dist/botgram/browser",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
