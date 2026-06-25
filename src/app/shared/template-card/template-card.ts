@@ -1,5 +1,4 @@
-import { Component, input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, input, output } from '@angular/core';
 
 export interface BotTemplate {
   id: number;
@@ -19,10 +18,9 @@ export interface BotTemplate {
 })
 export class TemplateCard {
   template = input.required<BotTemplate>();
+  preview = output<BotTemplate>();
 
-  constructor(private router: Router) {}
-
-  select() {
-    this.router.navigate(['/wizard', this.template().id]);
+  open() {
+    this.preview.emit(this.template());
   }
 }

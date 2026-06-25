@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TemplateCard, BotTemplate } from '../../shared/template-card/template-card';
 
 type Filter = 'todos' | 'gratis' | 'pro';
@@ -12,6 +12,7 @@ type Filter = 'todos' | 'gratis' | 'pro';
 })
 export class Templates {
   activeFilter = signal<Filter>('todos');
+  selectedTemplate = signal<BotTemplate | null>(null);
 
   allTemplates: BotTemplate[] = [
     {
@@ -110,11 +111,21 @@ export class Templates {
     { label: 'Pro', value: 'pro' },
   ];
 
+  constructor(private router: Router) {}
+
   setFilter(f: Filter) {
     this.activeFilter.set(f);
   }
 
-  onTemplateSelect(template: BotTemplate) {
-    console.log('template selecionado:', template.name);
+  openPreview(template: BotTemplate) {
+    this.selectedTemplate.set(template);
+  }
+
+  closePreview() {
+    this.selectedTemplate.set(null);
+  }
+
+  useTemplate(id: number) {
+    this.router.navigate(['/wizard', id]);
   }
 }

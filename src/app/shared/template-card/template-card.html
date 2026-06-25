@@ -1,4 +1,4 @@
-<div class="card" (click)="select()">
+<div class="card" (click)="open()">
   <div class="card-header">
     <span class="card-icon">{{ template().icon }}</span>
     @if (template().free) {
@@ -21,7 +21,7 @@
   <div class="card-footer">
     <span class="card-category">{{ template().category }}</span>
     <button class="card-btn">
-      Usar template
+      Ver preview
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path d="M5 12h14M12 5l7 7-7 7"/>
       </svg>

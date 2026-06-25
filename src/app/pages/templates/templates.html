@@ -32,9 +32,76 @@
   <div class="grid-wrapper">
     <div class="templates-grid">
       @for (template of templates(); track template.id) {
-        <app-template-card [template]="template" />
+        <app-template-card [template]="template" (preview)="openPreview($event)" />
       }
     </div>
   </div>
 
 </div>
+
+<!-- Modal de preview -->
+@if (selectedTemplate()) {
+  <div class="modal-backdrop" (click)="closePreview()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <button class="modal-close" (click)="closePreview()">✕</button>
+
+      <div class="modal-left">
+        <div class="modal-badge-row">
+          @if (selectedTemplate()!.free) {
+            <span class="badge-free">Grátis</span>
+          } @else {
+            <span class="badge-pro">Pro</span>
+          }
+          <span class="modal-category">{{ selectedTemplate()!.category }}</span>
+        </div>
+
+        <div class="modal-icon">{{ selectedTemplate()!.icon }}</div>
+        <h2 class="modal-title">{{ selectedTemplate()!.name }}</h2>
+        <p class="modal-desc">{{ selectedTemplate()!.desc }}</p>
+
+        <ul class="modal-features">
+          <li>Menu de produtos configurável</li>
+          <li>Pagamento via PIX integrado</li>
+          <li>Mensagens personalizáveis</li>
+          <li>Código pronto para rodar</li>
+        </ul>
+
+        <button class="btn-use" (click)="useTemplate(selectedTemplate()!.id)">
+          ⚡ Usar este template
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-right">
+        <div class="modal-preview-label">
+          <span class="dot"></span> preview do bot
+        </div>
+        <div class="tg-window">
+          <div class="tg-header">
+            <div class="tg-avatar">{{ selectedTemplate()!.icon }}</div>
+            <div class="tg-info">
+              <span class="tg-name">{{ selectedTemplate()!.name }}</span>
+              <span class="tg-status">online</span>
+            </div>
+          </div>
+          <div class="tg-messages">
+            @for (msg of selectedTemplate()!.preview; track msg) {
+              <div class="tg-msg tg-bot">{{ msg }}</div>
+            }
+            <div class="tg-msg tg-user">1</div>
+            <div class="tg-msg tg-bot">
+              ✅ Perfeito! Aqui estão os detalhes do seu pedido.<br />
+              💳 PIX: sua-chave@pix.com<br />
+              Envie o comprovante após o pagamento.
+            </div>
+            <div class="tg-typing"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+}
