@@ -169,6 +169,35 @@
   }
 }
 
+.lang-toggle {
+  margin-left: auto;
+  display: flex;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+
+  button {
+    background: transparent;
+    border: none;
+    color: #475569;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    padding: 0.2rem 0.45rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    letter-spacing: 0.05em;
+
+    &.active {
+      background: rgba(124, 58, 237, 0.25);
+      color: #c4b5fd;
+    }
+
+    &:hover:not(.active) {
+      color: #94a3b8;
+    }
+  }
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }

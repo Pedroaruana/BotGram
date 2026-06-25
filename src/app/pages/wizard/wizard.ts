@@ -42,6 +42,8 @@ export class Wizard implements OnInit {
   isFirst = computed(() => this.currentStep() === 1);
   isLast = computed(() => this.currentStep() === this.totalSteps);
 
+  lang = signal<'pt' | 'en'>('pt');
+
   botName = signal('');
   botToken = signal('');
   botDesc = signal('');
@@ -51,33 +53,58 @@ export class Wizard implements OnInit {
   pixKey = signal('');
   paymentNote = signal('');
 
+  t = computed(() => this.lang() === 'pt' ? {
+    welcome: 'Olá! 👋 Bem-vindo. O que você procura?',
+    menu: 'Escolha uma opção:',
+    productExample: 'Produto exemplo',
+    price: 'R$ 00,00',
+    valueLine: 'Valor',
+    noteLine: 'Envie o comprovante após o pagamento.',
+    defaultMsg: 'Digite /start para ver o menu. 😊',
+    running: 'rodando',
+    token: 'SEU_TOKEN_AQUI',
+    pix: 'SUA_CHAVE_PIX',
+  } : {
+    welcome: 'Hello! 👋 Welcome. What are you looking for?',
+    menu: 'Choose an option:',
+    productExample: 'Example product',
+    price: '$ 0.00',
+    valueLine: 'Price',
+    noteLine: 'Send the receipt after payment.',
+    defaultMsg: 'Type /start to see the menu. 😊',
+    running: 'running',
+    token: 'YOUR_TOKEN_HERE',
+    pix: 'YOUR_PIX_KEY',
+  });
+
   previewBotName = computed(() => this.botName() || 'Meu Bot de Vendas');
-  previewWelcome = computed(() => this.welcomeMsg() || 'Olá! 👋 Bem-vindo. O que você procura?');
-  previewMenu = computed(() => this.menuTitle() || 'Escolha uma opção:');
+  previewWelcome = computed(() => this.welcomeMsg() || this.t().welcome);
+  previewMenu = computed(() => this.menuTitle() || this.t().menu);
   previewProducts = computed(() =>
     this.products().filter(p => p.name).length > 0
       ? this.products().filter(p => p.name)
-      : [{ name: 'Produto exemplo', price: 'R$ 00,00', desc: '' }]
+      : [{ name: this.t().productExample, price: this.t().price, desc: '' }]
   );
   previewFirstProduct = computed(() => this.previewProducts()[0]);
 
   generatedCode = computed(() => {
-    const name = this.botName() || 'Meu Bot';
-    const token = this.botToken() || 'SEU_TOKEN_AQUI';
-    const welcome = this.welcomeMsg() || 'Olá! 👋 Bem-vindo. O que você procura?';
-    const menu = this.menuTitle() || 'Escolha uma opção:';
-    const pix = this.pixKey() || 'SUA_CHAVE_PIX';
-    const note = this.paymentNote() || 'Envie o comprovante após o pagamento.';
+    const tr = this.t();
+    const name = this.botName() || 'BotGram';
+    const token = this.botToken() || tr.token;
+    const welcome = this.welcomeMsg() || tr.welcome;
+    const menu = this.menuTitle() || tr.menu;
+    const pix = this.pixKey() || tr.pix;
+    const note = this.paymentNote() || tr.noteLine;
     const prods = this.products().filter(p => p.name).length > 0
       ? this.products().filter(p => p.name)
-      : [{ name: 'Produto 1', price: 'R$ 0,00', desc: '' }];
+      : [{ name: tr.productExample, price: tr.price, desc: '' }];
 
     const menuItems = prods.map((p, i) =>
       `  bot.sendMessage(chatId, '${i + 1}. ${p.name}${p.price ? ' — ' + p.price : ''}${p.desc ? '\\n' + p.desc : ''}');`
     ).join('\n');
 
     const productCases = prods.map((p, i) =>
-      `    case '${i + 1}':\n    case '${p.name}':\n      bot.sendMessage(chatId, '✅ ${p.name}${p.price ? '\\nValor: ' + p.price : ''}\\n\\n💳 PIX: ${pix}\\n${note}');\n      break;`
+      `    case '${i + 1}':\n    case '${p.name}':\n      bot.sendMessage(chatId, '✅ ${p.name}${p.price ? '\\n' + tr.valueLine + ': ' + p.price : ''}\\n\\n💳 PIX: ${pix}\\n${note}');\n      break;`
     ).join('\n');
 
     return `// ${name} — gerado pelo BotGram
@@ -102,11 +129,11 @@ bot.on('message', (msg) => {
   switch (text) {
 ${productCases}
     default:
-      bot.sendMessage(chatId, 'Digite /start para ver o menu. 😊');
+      bot.sendMessage(chatId, '${tr.defaultMsg}');
   }
 });
 
-console.log('✅ ${name} rodando...');`;
+console.log('✅ ${name} ${tr.running}...');`;
   });
 
   constructor(private route: ActivatedRoute) {}

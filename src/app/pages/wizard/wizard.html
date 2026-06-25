@@ -150,6 +150,10 @@
     <div class="preview-panel">
       <div class="preview-label-top">
         <span class="dot"></span> preview em tempo real
+        <div class="lang-toggle">
+          <button [class.active]="lang() === 'pt'" (click)="lang.set('pt')">PT</button>
+          <button [class.active]="lang() === 'en'" (click)="lang.set('en')">EN</button>
+        </div>
       </div>
       <div class="tg-window">
         <div class="tg-header">
@@ -178,11 +182,7 @@
             @if (pixKey()) {
               PIX: <strong>{{ pixKey() }}</strong><br />
             }
-            @if (paymentNote()) {
-              {{ paymentNote() }}
-            } @else {
-              Envie o comprovante após o pagamento.
-            }
+            {{ paymentNote() || t().noteLine }}
           </div>
           <div class="tg-typing"><span></span><span></span><span></span></div>
         </div>
