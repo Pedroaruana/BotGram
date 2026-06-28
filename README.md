@@ -1,6 +1,6 @@
 # BotGram
 
-![Vercel](https://img.shields.io/badge/Vercel-deployed-000?logo=vercel&logoColor=white) ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-bot-339933?logo=node.js&logoColor=white) ![License](https://img.shields.io/badge/license-MIT-green)
+![Vercel](https://img.shields.io/badge/Vercel-deployed-000?logo=vercel&logoColor=white) ![Angular](https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript&logoColor=white) ![Tailwind](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss&logoColor=white) ![Fastify](https://img.shields.io/badge/Fastify-5-000?logo=fastify&logoColor=white) ![Vitest](https://img.shields.io/badge/Vitest-tests-6E9F18?logo=vitest&logoColor=white) ![Fly.io](https://img.shields.io/badge/Fly.io-api-8B5CF6?logo=flydotio&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-bot-339933?logo=node.js&logoColor=white) ![License](https://img.shields.io/badge/license-MIT-green)
 
 **Demo ao vivo → [botgram-henna.vercel.app](https://botgram-henna.vercel.app)**
 
@@ -32,11 +32,19 @@ Quando comecei a estudar desenvolvimento, fez sentido construir exatamente isso.
 
 ## Stack
 
+**Frontend**
 - **Angular 21** — standalone components, signals, lazy loading por rota
 - **Tailwind CSS v4** — via `@tailwindcss/postcss`
 - **TypeScript** — tipagem em tudo
-- **Node.js** — código gerado usa `node-telegram-bot-api`
 - **Vercel** — deploy e hospedagem
+
+**Backend**
+- **Fastify 5** — API REST em TypeScript com ESM nativo
+- **Vitest** — testes de rota com `app.inject()`
+- **Docker + Fly.io** — container deployado na região de São Paulo
+
+**Bot gerado**
+- **Node.js** — usa `node-telegram-bot-api`
 
 ## Screenshots
 
@@ -47,21 +55,37 @@ Quando comecei a estudar desenvolvimento, fez sentido construir exatamente isso.
 ## Arquitetura
 
 ```
-src/
-├── app/
-│   ├── layout/
-│   │   └── navbar/          # Navbar fixa com roteamento
-│   ├── pages/
-│   │   ├── home/            # Landing page com hero, templates e planos
-│   │   ├── templates/       # Grid de templates com filtros
-│   │   ├── wizard/          # Configurador de bot em 4 etapas
-│   │   └── pricing/         # Página de preços com toggle de período
-│   └── shared/
-│       └── template-card/   # Card reutilizável + interface BotTemplate
-└── styles.scss              # Variáveis CSS globais e Tailwind
+.
+├── src/                          # Frontend (Angular)
+│   └── app/
+│       ├── layout/
+│       │   ├── navbar/           # Navbar fixa com roteamento
+│       │   └── footer/           # Rodapé compartilhado
+│       ├── pages/
+│       │   ├── home/             # Landing page
+│       │   ├── templates/        # Grid de templates + modal de preview
+│       │   ├── wizard/           # Configurador de bot em 4 etapas
+│       │   ├── pricing/          # Página de preços
+│       │   └── not-found/        # 404 com efeito glitch
+│       └── shared/
+│           └── template-card/    # Card reutilizável
+└── backend/                      # Backend (Fastify)
+    ├── src/
+    │   ├── plugins/
+    │   │   └── cors.ts           # CORS pro frontend
+    │   ├── routes/
+    │   │   ├── templates.ts      # GET /api/templates
+    │   │   ├── bots.ts           # POST/GET/DELETE /api/bots
+    │   │   └── validate.ts       # POST /api/validate-token
+    │   └── server.ts             # Bootstrap do Fastify
+    ├── tests/                    # Testes Vitest
+    ├── Dockerfile
+    └── fly.toml
 ```
 
-Cada página é um standalone component carregado via lazy loading. O wizard usa signals para reatividade — todos os campos são `signal()` e o preview e o código gerado são `computed()` que derivam desses campos automaticamente.
+Cada página do frontend é um standalone component carregado via lazy loading. O wizard usa signals para reatividade — todos os campos são `signal()` e o preview e o código gerado são `computed()` que derivam desses campos automaticamente.
+
+A API valida tokens contra a `api.telegram.org/getMe` e armazena as configurações de bot em memória (banco a definir).
 
 ## Rodando localmente
 
@@ -71,15 +95,23 @@ Cada página é um standalone component carregado via lazy loading. O wizard usa
 # 1. Clone o repositório
 git clone https://github.com/Pedroaruana/BotGram.git
 cd BotGram
+```
 
-# 2. Instale as dependências
+**Frontend** (porta 4200)
+
+```bash
 npm install
-
-# 3. Inicie o servidor de desenvolvimento
 ng serve
 ```
 
-Acesse `http://localhost:4200`
+**Backend** (porta 3000)
+
+```bash
+cd backend
+npm install
+npm run dev          # API em http://localhost:3000
+npm test             # roda os testes Vitest
+```
 
 > Para testar o bot gerado você vai precisar de um token do Telegram. Crie um pelo [@BotFather](https://t.me/BotFather) — é gratuito e leva menos de 1 minuto.
 
