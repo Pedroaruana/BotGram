@@ -43,6 +43,7 @@ export class Wizard implements OnInit {
   isLast = computed(() => this.currentStep() === this.totalSteps);
 
   lang = signal<'pt' | 'en'>('pt');
+  showErrors = signal(false);
 
   botName = signal('');
   botToken = signal('');
@@ -180,7 +181,50 @@ console.log('✅ ${name} ${tr.running}...');`;
     URL.revokeObjectURL(url);
   }
 
-  next() { if (!this.isLast()) this.currentStep.update(s => s + 1); }
-  back() { if (!this.isFirst()) this.currentStep.update(s => s - 1); }
-  goTo(step: number) { if (step < this.currentStep()) this.currentStep.set(step); }
+  stepErrors = computed(() => {
+    const errs: Record<string, string> = {};
+    switch (this.currentStep()) {
+      case 1:
+        if (!this.botName().trim()) errs['botName'] = 'Dê um nome ao seu bot.';
+        if (!this.botToken().trim()) errs['botToken'] = 'Cole o token do BotFather.';
+        break;
+      case 2:
+        const validProducts = this.products().filter(p => p.name.trim() && p.price.trim());
+        if (!validProducts.length) errs['products'] = 'Adicione pelo menos um produto com nome e preço.';
+        break;
+      case 3:
+        if (!this.welcomeMsg().trim()) errs['welcomeMsg'] = 'Escreva uma mensagem de boas-vindas.';
+        if (!this.menuTitle().trim()) errs['menuTitle'] = 'Defina o título do menu.';
+        break;
+      case 4:
+        if (!this.pixKey().trim()) errs['pixKey'] = 'Informe a chave PIX para receber pagamentos.';
+        break;
+    }
+    return errs;
+  });
+
+  isStepValid = computed(() => Object.keys(this.stepErrors()).length === 0);
+
+  next() {
+    if (this.isLast()) return;
+    if (!this.isStepValid()) {
+      this.showErrors.set(true);
+      return;
+    }
+    this.showErrors.set(false);
+    this.currentStep.update(s => s + 1);
+  }
+
+  back() {
+    if (this.isFirst()) return;
+    this.showErrors.set(false);
+    this.currentStep.update(s => s - 1);
+  }
+
+  goTo(step: number) { if (step < this.currentStep()) { this.showErrors.set(false); this.currentStep.set(step); } }
+
+  tryGenerate() {
+    if (!this.isStepValid()) { this.showErrors.set(true); return; }
+    this.generate();
+  }
 }

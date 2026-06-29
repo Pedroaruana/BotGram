@@ -51,14 +51,21 @@
             <h2>Informações do bot</h2>
             <p class="step-subtitle">Configurações básicas. Você vai precisar do token do BotFather.</p>
             <div class="fields">
-              <div class="field">
+              <div class="field" [class.has-error]="showErrors() && stepErrors()['botName']">
                 <label>Nome do bot</label>
                 <input type="text" [ngModel]="botName()" (ngModelChange)="botName.set($event)" placeholder="ex: Minha Loja Oficial" />
+                @if (showErrors() && stepErrors()['botName']) {
+                  <span class="field-error">{{ stepErrors()['botName'] }}</span>
+                }
               </div>
-              <div class="field">
+              <div class="field" [class.has-error]="showErrors() && stepErrors()['botToken']">
                 <label>Token do Telegram <span class="label-hint">(do BotFather)</span></label>
                 <input type="text" [ngModel]="botToken()" (ngModelChange)="botToken.set($event)" placeholder="1234567890:ABCdefGhIJKlmNoPQRsTUVwxyZ" class="font-mono" />
-                <span class="field-help">Não sabe como pegar? <a href="https://t.me/BotFather" target="_blank">Acesse o BotFather</a></span>
+                @if (showErrors() && stepErrors()['botToken']) {
+                  <span class="field-error">{{ stepErrors()['botToken'] }}</span>
+                } @else {
+                  <span class="field-help">Não sabe como pegar? <a href="https://t.me/BotFather" target="_blank">Acesse o BotFather</a></span>
+                }
               </div>
               <div class="field">
                 <label>Descrição curta do bot</label>
@@ -71,6 +78,9 @@
           <div class="step-panel">
             <h2>Seus produtos</h2>
             <p class="step-subtitle">Adicione o que você vende. O bot vai exibir cada item como opção do menu.</p>
+            @if (showErrors() && stepErrors()['products']) {
+              <div class="step-error-banner">⚠ {{ stepErrors()['products'] }}</div>
+            }
             <div class="products-list">
               @for (product of products(); track $index) {
                 <div class="product-card">
@@ -105,13 +115,19 @@
             <h2>Mensagens do bot</h2>
             <p class="step-subtitle">Personalize o que o bot vai dizer em cada etapa.</p>
             <div class="fields">
-              <div class="field">
+              <div class="field" [class.has-error]="showErrors() && stepErrors()['welcomeMsg']">
                 <label>Mensagem de boas-vindas</label>
                 <textarea [ngModel]="welcomeMsg()" (ngModelChange)="welcomeMsg.set($event)" placeholder="ex: Olá! 👋 Bem-vindo à nossa loja!" rows="3"></textarea>
+                @if (showErrors() && stepErrors()['welcomeMsg']) {
+                  <span class="field-error">{{ stepErrors()['welcomeMsg'] }}</span>
+                }
               </div>
-              <div class="field">
+              <div class="field" [class.has-error]="showErrors() && stepErrors()['menuTitle']">
                 <label>Título do menu</label>
                 <input type="text" [ngModel]="menuTitle()" (ngModelChange)="menuTitle.set($event)" placeholder="ex: Escolha um plano:" />
+                @if (showErrors() && stepErrors()['menuTitle']) {
+                  <span class="field-error">{{ stepErrors()['menuTitle'] }}</span>
+                }
               </div>
             </div>
           </div>
@@ -121,9 +137,12 @@
             <h2>Pagamento</h2>
             <p class="step-subtitle">Como seus clientes vão pagar após o pedido.</p>
             <div class="fields">
-              <div class="field">
+              <div class="field" [class.has-error]="showErrors() && stepErrors()['pixKey']">
                 <label>Chave PIX</label>
                 <input type="text" [ngModel]="pixKey()" (ngModelChange)="pixKey.set($event)" placeholder="CPF, e-mail, telefone ou chave aleatória" />
+                @if (showErrors() && stepErrors()['pixKey']) {
+                  <span class="field-error">{{ stepErrors()['pixKey'] }}</span>
+                }
               </div>
               <div class="field">
                 <label>Instruções <span class="label-hint">(opcional)</span></label>
@@ -141,7 +160,7 @@
         @if (!isLast()) {
           <button class="btn-next" (click)="next()">Continuar →</button>
         } @else {
-          <button class="btn-generate" (click)="generate()">⚡ Gerar código do bot</button>
+          <button class="btn-generate" (click)="tryGenerate()">⚡ Gerar código do bot</button>
         }
       </div>
     </div>
