@@ -1,7 +1,8 @@
-import { Component, signal, computed, OnInit } from '@angular/core';
+import { Component, signal, computed, OnInit, inject, effect } from '@angular/core';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BotTemplate } from '../../shared/template-card/template-card';
+import { ApiService } from '../../services/api.service';
 
 interface Step { number: number; label: string; desc: string; }
 interface Product { name: string; price: string; desc: string; }
@@ -44,6 +45,14 @@ export class Wizard implements OnInit {
 
   lang = signal<'pt' | 'en'>('pt');
   showErrors = signal(false);
+
+  tokenStatus = signal<'idle' | 'checking' | 'valid' | 'invalid'>('idle');
+  tokenBotInfo = signal<{ username: string; name: string } | null>(null);
+  private tokenTimer: ReturnType<typeof setTimeout> | null = null;
+  private api = inject(ApiService);
+
+  savedBotId = signal<string | null>(null);
+  saveError = signal<string | null>(null);
 
   botName = signal('');
   botToken = signal('');
@@ -137,12 +146,35 @@ ${productCases}
 console.log('✅ ${name} ${tr.running}...');`;
   });
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) {
+    effect(() => {
+      const token = this.botToken().trim();
+      if (this.tokenTimer) clearTimeout(this.tokenTimer);
+      if (!token) { this.tokenStatus.set('idle'); this.tokenBotInfo.set(null); return; }
+      this.tokenStatus.set('checking');
+      this.tokenTimer = setTimeout(() => this.checkToken(token), 600);
+    });
+  }
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.template = ALL_TEMPLATES.find(t => t.id === id) ?? null;
     if (this.template) this.botName.set(this.template.name);
+  }
+
+  private checkToken(token: string) {
+    this.api.validateToken(token).subscribe({
+      next: res => {
+        if (res.valid && res.bot) {
+          this.tokenStatus.set('valid');
+          this.tokenBotInfo.set(res.bot);
+        } else {
+          this.tokenStatus.set('invalid');
+          this.tokenBotInfo.set(null);
+        }
+      },
+      error: () => { this.tokenStatus.set('idle'); this.tokenBotInfo.set(null); },
+    });
   }
 
   addProduct() {
@@ -162,6 +194,21 @@ console.log('✅ ${name} ${tr.running}...');`;
 
   generate() {
     this.showCode.set(true);
+    this.saveError.set(null);
+
+    this.api.saveBot({
+      templateId: this.template?.id,
+      botName: this.botName(),
+      welcomeMsg: this.welcomeMsg(),
+      menuTitle: this.menuTitle(),
+      products: this.products().filter(p => p.name.trim()),
+      pixKey: this.pixKey(),
+      paymentNote: this.paymentNote(),
+    }).subscribe({
+      next: ({ data }) => this.savedBotId.set(data.id),
+      error: () => this.saveError.set('Não foi possível salvar na API.'),
+    });
+
     setTimeout(() => document.querySelector('.code-section')?.scrollIntoView({ behavior: 'smooth' }), 100);
   }
 

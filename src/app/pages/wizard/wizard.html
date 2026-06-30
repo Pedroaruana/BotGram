@@ -59,9 +59,18 @@
                 }
               </div>
               <div class="field" [class.has-error]="showErrors() && stepErrors()['botToken']">
-                <label>Token do Telegram <span class="label-hint">(do BotFather)</span></label>
+                <label>
+                  Token do Telegram <span class="label-hint">(do BotFather)</span>
+                  @switch (tokenStatus()) {
+                    @case ('checking') { <span class="token-tag token-checking">verificando…</span> }
+                    @case ('valid') { <span class="token-tag token-valid">✓ válido</span> }
+                    @case ('invalid') { <span class="token-tag token-invalid">✕ inválido</span> }
+                  }
+                </label>
                 <input type="text" [ngModel]="botToken()" (ngModelChange)="botToken.set($event)" placeholder="1234567890:ABCdefGhIJKlmNoPQRsTUVwxyZ" class="font-mono" />
-                @if (showErrors() && stepErrors()['botToken']) {
+                @if (tokenStatus() === 'valid' && tokenBotInfo()) {
+                  <span class="field-help">Conectado a <strong>{{ tokenBotInfo()!.name }}</strong> (&#64;{{ tokenBotInfo()!.username }})</span>
+                } @else if (showErrors() && stepErrors()['botToken']) {
                   <span class="field-error">{{ stepErrors()['botToken'] }}</span>
                 } @else {
                   <span class="field-help">Não sabe como pegar? <a href="https://t.me/BotFather" target="_blank">Acesse o BotFather</a></span>
@@ -220,6 +229,11 @@
           <div>
             <strong>Código gerado com sucesso!</strong>
             <p>Baixe o arquivo, instale a dependência e rode o bot.</p>
+            @if (savedBotId()) {
+              <span class="saved-tag">💾 salvo na API · id {{ savedBotId() }}</span>
+            } @else if (saveError()) {
+              <span class="save-err-tag">⚠ {{ saveError() }}</span>
+            }
           </div>
           <button class="btn-edit" (click)="showCode.set(false)">← editar configuração</button>
         </div>
