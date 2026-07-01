@@ -1,4 +1,4 @@
-import type { FastifyInstance } from 'fastify';
+import type { Hono } from 'hono';
 
 interface Product {
   name: string;
@@ -8,7 +8,7 @@ interface Product {
 
 interface BotConfig {
   id: string;
-  templateId: number;
+  templateId?: number;
   botName: string;
   welcomeMsg: string;
   menuTitle: string;
@@ -20,34 +20,34 @@ interface BotConfig {
 
 const bots = new Map<string, BotConfig>();
 
-export async function botsRoutes(app: FastifyInstance) {
-  app.post<{ Body: Omit<BotConfig, 'id' | 'createdAt'> }>('/api/bots', async (req, reply) => {
-    const { botName, products, pixKey } = req.body;
+export function botsRoutes(app: Hono) {
+  app.post('/api/bots', async c => {
+    const body = await c.req.json<Omit<BotConfig, 'id' | 'createdAt'>>();
+    const { botName, products, pixKey } = body;
 
-    if (!botName?.trim()) return reply.status(400).send({ error: 'botName é obrigatório' });
-    if (!products?.length) return reply.status(400).send({ error: 'Pelo menos um produto é obrigatório' });
-    if (!pixKey?.trim()) return reply.status(400).send({ error: 'pixKey é obrigatória' });
+    if (!botName?.trim()) return c.json({ error: 'botName é obrigatório' }, 400);
+    if (!products?.length) return c.json({ error: 'Pelo menos um produto é obrigatório' }, 400);
+    if (!pixKey?.trim()) return c.json({ error: 'pixKey é obrigatória' }, 400);
 
     const id = crypto.randomUUID();
-    const bot: BotConfig = { ...req.body, id, createdAt: new Date().toISOString() };
+    const bot: BotConfig = { ...body, id, createdAt: new Date().toISOString() };
     bots.set(id, bot);
 
-    return reply.status(201).send({ data: bot });
+    return c.json({ data: bot }, 201);
   });
 
-  app.get('/api/bots', async () => {
-    return { data: Array.from(bots.values()) };
+  app.get('/api/bots', c => c.json({ data: Array.from(bots.values()) }));
+
+  app.get('/api/bots/:id', c => {
+    const bot = bots.get(c.req.param('id'));
+    if (!bot) return c.json({ error: 'Bot não encontrado' }, 404);
+    return c.json({ data: bot });
   });
 
-  app.get<{ Params: { id: string } }>('/api/bots/:id', async (req, reply) => {
-    const bot = bots.get(req.params.id);
-    if (!bot) return reply.status(404).send({ error: 'Bot não encontrado' });
-    return { data: bot };
-  });
-
-  app.delete<{ Params: { id: string } }>('/api/bots/:id', async (req, reply) => {
-    if (!bots.has(req.params.id)) return reply.status(404).send({ error: 'Bot não encontrado' });
-    bots.delete(req.params.id);
-    return reply.status(204).send();
+  app.delete('/api/bots/:id', c => {
+    const id = c.req.param('id');
+    if (!bots.has(id)) return c.json({ error: 'Bot não encontrado' }, 404);
+    bots.delete(id);
+    return c.body(null, 204);
   });
 }

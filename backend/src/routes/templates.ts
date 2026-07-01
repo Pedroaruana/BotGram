@@ -1,4 +1,4 @@
-import type { FastifyInstance } from 'fastify';
+import type { Hono } from 'hono';
 
 const templates = [
   { id: 1, icon: '🎬', name: 'Filmes & Séries', desc: 'Venda acesso a catálogos de streaming com planos mensais e anuais.', category: 'Entretenimento', free: true },
@@ -12,14 +12,12 @@ const templates = [
   { id: 9, icon: '🎓', name: 'Mentorias', desc: 'Agende sessões de mentoria e receba pagamentos pelo próprio bot.', category: 'Serviços', free: false },
 ];
 
-export async function templatesRoutes(app: FastifyInstance) {
-  app.get('/api/templates', async () => {
-    return { data: templates };
-  });
+export function templatesRoutes(app: Hono) {
+  app.get('/api/templates', c => c.json({ data: templates }));
 
-  app.get<{ Params: { id: string } }>('/api/templates/:id', async (req, reply) => {
-    const template = templates.find(t => t.id === Number(req.params.id));
-    if (!template) return reply.status(404).send({ error: 'Template não encontrado' });
-    return { data: template };
+  app.get('/api/templates/:id', c => {
+    const template = templates.find(t => t.id === Number(c.req.param('id')));
+    if (!template) return c.json({ error: 'Template não encontrado' }, 404);
+    return c.json({ data: template });
   });
 }
