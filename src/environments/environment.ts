@@ -2,5 +2,5 @@ const isDev = typeof window !== 'undefined' && window.location.hostname === 'loc
 
 export const environment = {
   production: !isDev,
-  apiUrl: isDev ? 'http://localhost:3000' : 'https://botgram-api.fly.dev',
+  apiUrl: isDev ? 'http://localhost:8787' : 'https://botgram-api.pedroaruana.workers.dev',
 };
