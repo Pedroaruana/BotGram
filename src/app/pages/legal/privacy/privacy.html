@@ -1,0 +1,135 @@
+<div class="legal-page">
+
+  <div class="legal-header">
+    <div class="legal-header-inner">
+      <a routerLink="/" class="back-link">← início</a>
+      <span class="section-label">// legal</span>
+      <h1>Política de Privacidade</h1>
+      <p class="legal-updated">Última atualização: {{ updatedAt }}</p>
+    </div>
+  </div>
+
+  <div class="legal-body">
+
+    <div class="legal-notice">
+      <span class="notice-tag">RESUMO</span>
+      <p>
+        Não pedimos cadastro, não coletamos e-mail e não usamos rastreadores de publicidade.
+        O token do seu bot nunca é gravado. Os dados do formulário ficam em memória temporária
+        no servidor e somem no primeiro reinício.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2><span class="num">01</span> Quem somos</h2>
+      <p>
+        O BotGram é um projeto pessoal de portfólio mantido por Pedro Aruana. Não é uma empresa
+        e não possui CNPJ. O contato para assuntos de privacidade é
+        <a href="mailto:aruanapedro@gmail.com">aruanapedro&#64;gmail.com</a>.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2><span class="num">02</span> Dados que você fornece</h2>
+      <p>Ao usar o configurador de bots, você preenche:</p>
+      <ul>
+        <li><strong>Nome e descrição do bot</strong> — usados para montar o código gerado</li>
+        <li><strong>Produtos e preços</strong> — viram o menu do bot no código</li>
+        <li><strong>Mensagens personalizadas</strong> — texto de boas-vindas e título do menu</li>
+        <li><strong>Chave PIX</strong> — inserida no código gerado para você receber pagamentos</li>
+        <li><strong>Token do Telegram</strong> — usado apenas para validação, nunca gravado</li>
+      </ul>
+      <p>
+        Ao clicar em gerar o código, esses dados (exceto o token) são enviados para a nossa API e
+        guardados em <strong>memória volátil</strong>, sem banco de dados. Quando o servidor
+        reinicia, tudo é perdido. Não há como recuperar configurações antigas.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2><span class="num">03</span> Sobre o token do Telegram</h2>
+      <p>
+        O token é enviado à nossa API somente para consultar o endpoint
+        <code>getMe</code> do Telegram e confirmar que o bot existe. A resposta retorna apenas o
+        nome e o username público do bot.
+      </p>
+      <p>
+        O token <strong>não é salvo em memória, em disco ou em log</strong>. Ele existe apenas
+        durante a requisição de validação e no código que você baixa para o seu computador.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2><span class="num">04</span> Dados coletados automaticamente</h2>
+      <p>
+        A hospedagem do site (Vercel) e da API (Cloudflare Workers) registra dados técnicos de
+        acesso por padrão, como endereço IP, tipo de navegador e horário da requisição. Esses
+        logs pertencem a essas plataformas e são usados para segurança e prevenção de abuso.
+      </p>
+      <p>
+        Não temos ferramenta própria de analytics, pixel de rastreamento, heatmap ou qualquer
+        script de publicidade.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2><span class="num">05</span> Cookies e armazenamento local</h2>
+      <p>
+        O BotGram não usa cookies de rastreamento nem cookies de terceiros. Usamos apenas
+        <code>localStorage</code> do seu navegador para guardar sua escolha sobre o aviso de
+        cookies, para não mostrar o banner toda vez.
+      </p>
+      <p>
+        Esse dado fica somente no seu dispositivo e nunca é enviado para nenhum servidor. Você
+        pode apagá-lo limpando os dados do site pelo navegador.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2><span class="num">06</span> Compartilhamento com terceiros</h2>
+      <p>Não vendemos nem compartilhamos seus dados. Os serviços envolvidos são apenas:</p>
+      <ul>
+        <li><strong>Vercel</strong> — hospedagem do site</li>
+        <li><strong>Cloudflare Workers</strong> — hospedagem da API</li>
+        <li><strong>API do Telegram</strong> — consultada só na validação do token</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2><span class="num">07</span> Seus direitos (LGPD)</h2>
+      <p>
+        A Lei Geral de Proteção de Dados garante a você o direito de confirmar o tratamento,
+        acessar, corrigir, eliminar e obter portabilidade dos seus dados.
+      </p>
+      <p>
+        Como não mantemos cadastro nem banco de dados persistente, na prática não há dado
+        pessoal armazenado para consultar ou excluir. Ainda assim, se tiver qualquer solicitação,
+        escreva para <a href="mailto:aruanapedro@gmail.com">aruanapedro&#64;gmail.com</a>.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2><span class="num">08</span> Menores de idade</h2>
+      <p>
+        O BotGram não é direcionado a menores de 18 anos e não coleta intencionalmente dados
+        de crianças e adolescentes.
+      </p>
+    </div>
+
+    <div class="legal-section">
+      <h2><span class="num">09</span> Alterações nesta política</h2>
+      <p>
+        Esta política pode ser revisada a qualquer momento. A data da última atualização fica
+        sempre no topo da página.
+      </p>
+    </div>
+
+    <p class="legal-footer-note">
+      Quer ver exatamente o que o código faz com seus dados? O projeto é open source:
+      <a href="https://github.com/Pedroaruana/BotGram" target="_blank" rel="noopener">github.com/Pedroaruana/BotGram</a>.
+      Veja também os <a routerLink="/termos">Termos de Uso</a>.
+    </p>
+
+  </div>
+
+</div>

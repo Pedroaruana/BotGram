@@ -18,6 +18,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/wizard/wizard').then(m => m.Wizard),
   },
   {
+    path: 'termos',
+    loadComponent: () => import('./pages/legal/terms/terms').then(m => m.Terms),
+  },
+  {
+    path: 'privacidade',
+    loadComponent: () => import('./pages/legal/privacy/privacy').then(m => m.Privacy),
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound),
   },
