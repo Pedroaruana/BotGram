@@ -1,0 +1,26 @@
+# BotGram
+
+> Construtor visual de bots de venda para o Telegram. O usuario escolhe um template, preenche um formulario de 4 etapas com produtos, precos e mensagens, e recebe um arquivo bot.js pronto para rodar com node-telegram-bot-api. Projeto pessoal de portfolio, open source sob licenca MIT.
+
+O site nao exige cadastro e nao cobra nada. A pagina de precos e uma simulacao para demonstracao do projeto, nenhum pagamento e processado. O token do Telegram informado pelo usuario e usado apenas para validacao junto a API do Telegram e nunca e armazenado.
+
+## Paginas
+
+- [Inicio](https://botgram-henna.vercel.app/): landing page com o funcionamento da ferramenta e os templates em destaque
+- [Templates](https://botgram-henna.vercel.app/templates): catalogo com 9 templates de bot divididos em gratuitos e Pro, com preview de conversa
+- [Precos](https://botgram-henna.vercel.app/pricing): planos simulados com alternancia entre mensal, semestral e anual
+- [Termos de Uso](https://botgram-henna.vercel.app/termos): regras de uso, limitacao de responsabilidade e propriedade intelectual
+- [Politica de Privacidade](https://botgram-henna.vercel.app/privacidade): quais dados sao coletados, como o token e tratado e direitos sob a LGPD
+
+## Tecnologia
+
+- [Repositorio no GitHub](https://github.com/Pedroaruana/BotGram): codigo fonte completo do frontend e da API
+- Frontend: Angular 21 com standalone components e signals, Tailwind CSS v4, deploy na Vercel
+- Backend: API REST em Hono rodando em Cloudflare Workers, testes com Vitest
+- Bot gerado: Node.js usando a biblioteca node-telegram-bot-api
+
+## Contato
+
+- Autor: Pedro Aruana
+- Email: aruanapedro@gmail.com
+- GitHub: https://github.com/Pedroaruana

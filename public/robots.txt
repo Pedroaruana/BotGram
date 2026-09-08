@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# O wizard gera codigo a partir de dados do usuario, nao ha conteudo indexavel
+Disallow: /wizard/
+
+Sitemap: https://botgram-henna.vercel.app/sitemap.xml

@@ -1,0 +1,18 @@
+@if (visible()) {
+  <div class="cookie-banner">
+    <div class="cookie-icon">
+      <span class="dot"></span>
+    </div>
+
+    <div class="cookie-text">
+      <strong>Este site guarda apenas o essencial.</strong>
+      <p>
+        Sem cookies de rastreamento e sem anúncios. Usamos o armazenamento local do navegador só
+        para lembrar que você viu este aviso. Detalhes na
+        <a routerLink="/privacidade">Política de Privacidade</a>.
+      </p>
+    </div>
+
+    <button class="cookie-btn" (click)="accept()">Entendi</button>
+  </div>
+}
