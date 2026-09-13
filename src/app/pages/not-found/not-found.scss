@@ -218,6 +218,25 @@
   }
 }
 
+.quick-links {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  margin-top: -0.75rem;
+
+  a {
+    color: #475569;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover { color: #94a3b8; }
+  }
+
+  .sep { color: #1e293b; }
+}
+
 @media (max-width: 480px) {
   .terminal {
     min-width: unset;
